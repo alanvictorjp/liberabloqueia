@@ -104,7 +104,7 @@ _daemon() {
 	        if [[ $ip_libera ]] ; then
 	                cat $conf | grep -q "^Require ip $whitelist ${ip_libera}$" || {
 	                        sed -i "s/\(Require ip $whitelist\)/\1 $ip_libera/" $conf ;
-	                        service apache2 restart ;
+	                        service apache2 reload &> $null;
 	                }
 	        fi
 
@@ -112,7 +112,7 @@ _daemon() {
 	        if [[ $ip_bloqueia ]] ; then
 	                cat $conf | grep -q "^Require ip $whitelist ${ip_bloqueia}$" && {
 	                        sed -i "s/\(Require ip $whitelist\).*/\1/" $conf ;
-	                        service apache2 restart ;
+	                        service apache2 reload &> $null;
 	                }
 	        fi
 	        sleep 2
