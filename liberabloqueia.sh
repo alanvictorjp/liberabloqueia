@@ -4,7 +4,7 @@
 # Desc: Ativa e detativa diretorio web via url, necessário o uso de SSL.
 # Autor: Alan Victor, alanvictorjp gmail com
 # Criado: 08/06/2019
-# Modificado: 23/08/2019
+# Modificado: 29/08/2019
 
 # Locais
 ################################################################################
@@ -100,7 +100,7 @@ _daemon() {
 	        seg=$(date "+%S" | sed 's/.$//')
 	        atual="$atual0:$seg"
 
-	        ip_libera=$(tail -n2 $log | grep -i "${atual}.*${open}" | sed 's/ - - .*//' | head -n1)
+	        ip_libera=$(tail -n2 $log | grep -i "${atual}.*${open}" | sed 's/ - - .*//' | sed '1!d')
 	        if [[ $ip_libera ]] ; then
 	                cat $conf | grep -q "^Require ip $whitelist ${ip_libera}$" || {
 	                        sed -i "s/\(Require ip $whitelist\)/\1 $ip_libera/" $conf ;
@@ -108,7 +108,7 @@ _daemon() {
 	                }
 	        fi
 
-	        ip_bloqueia=$(tail -n2 $log | grep -i "${atual}.*${close}" | sed 's/ - - .*//' | head -n1)
+	        ip_bloqueia=$(tail -n2 $log | grep -i "${atual}.*${close}" | sed 's/ - - .*//' | sed '1!d')
 	        if [[ $ip_bloqueia ]] ; then
 	                cat $conf | grep -q "^Require ip $whitelist ${ip_bloqueia}$" && {
 	                        sed -i "s/\(Require ip $whitelist\).*/\1/" $conf ;
