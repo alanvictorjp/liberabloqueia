@@ -38,10 +38,12 @@ finall="\033[0m"
 # testes
 ################################################################################
 [ ! -f $logfile ] && { touch $logfile ; }
+trap saindo SIGINT SIGTERM SIGKILL
 ################################################################################
 
 # funcoes
 ################################################################################
+saindo() { _stop || rm -rf $pidfile &> $null ; }
 eco_verde_claro() {	echo -ne "${codigo}${verdeClaro}$*${finall}";		}
 eco_vermelho_claro() {	echo -ne "${codigo}${vermelhoClaro}$*${finall}";	}
 
